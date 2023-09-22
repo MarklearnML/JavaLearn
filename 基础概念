@@ -1,0 +1,16 @@
+ long 和 float类型的定义 数据值后面需要加L/F  long a = 100L;  float b = 10.1F;<br>
+
+   
+键盘输入 cin-- <br>
+import java.util.Scanner; // 这是java写好的键盘键入的包<br>
+public class scanner{
+     public static void main(String[] args){
+       // 创建对象
+          Scanner sc = new Scanner(System.in);
+       // 接收数据
+          int i = sc.nextInt();
+          System.out.println(i);
+     }
+}
+
+* 字符串（是String 不是 char）参与的+ 会把字符串相加  例如  "abc" + 123 = "abc123";     1 + 2 + "abc" + 2 + 1 = "3abc21"  有字符串参与的+是字符串加法， 而1+2没有字符串
