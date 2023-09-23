@@ -46,3 +46,4 @@ Vs this:
 一个对象的实际类型是确定的  例如 new Student()， 但引用类型是不确定的 例如 People p = new Student()
 对象的实例只能由父类或者子类引用
 父类引用子类实例，可以调用所有父类的方法，当子类对父类的方法进行重写后，则调用子类重写后的方法。
+static private final的方法都不能多态，static是因为不是实例，private是因为不能继承
