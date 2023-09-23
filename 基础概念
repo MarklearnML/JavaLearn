@@ -44,6 +44,7 @@ Vs this:
 多态：
 多态是方法的多态，属性没有多态
 一个对象的实际类型是确定的  例如 new Student()， 但引用类型是不确定的 例如 People p = new Student()
+
 对象的实例只能由父类或者子类引用
 父类引用子类实例，可以调用所有父类的方法，当子类对父类的方法进行重写后，则调用子类重写后的方法。
 static private final的方法都不能多态，static是因为不是实例，private是因为不能继承
@@ -53,3 +54,25 @@ static private final的方法都不能多态，static是因为不是实例，pri
 3.把父类转换为子类，向下转型； 强制转换
 4.方便方法的调用，减少重复的代码！
 */
+
+
+
+
+String类：
+1.字符串比较 
+String s1 = new String("abc")
+String s2 = "abc";
+System.out.println(a==b) False    ==用于比较时 基本数据类型比较的是数据集 如char int double boolean等， 引用数据类型比较的是地址值
+那么字符串如何进行比较呢？ boolean equals     boolean equalslgnoreCase  前者是比较是否完全相等  后者忽略大小写
+用法 s1.equals(s2)  s1.equalslgnoreCase(s2)  返回boolean
+2.字符串索引
+s.charAt(i)    s.length()// 长度   键盘录入字符串  Scanner sc = new Scanner(System.in);   String s = sc.next();
+3.字符串的拼接
+字符串可以拼接 用+就行，但字符串不能进行修改，每次都会创建一个新的对象
+3.StrinBuilder：可以看成一个容器，创建之后里面的内容是可变的
+getString()     substring()   replace()   length()   append()   insert()  reverse()
+4.StringJoiner:可以方便高效的拼接字符串
+StringJoiner sj = new StringJoiner(',', '[', ']');
+sj.add('a').add('b').add('c');
+sj.toString() == "[a,b,c]" 
+
