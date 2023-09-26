@@ -76,3 +76,18 @@ StringJoiner sj = new StringJoiner(',', '[', ']');
 sj.add('a').add('b').add('c');
 sj.toString() == "[a,b,c]" 
 
+ArrayList:
+创建集合的对象   ArrayList<String> list = new ArrayList<>();
+.add()    .remove(E e)/remove(index)  .get(index)  .size()   
+基本数据类型的包装类：
+byye-Byte  char-Character  int-Integer
+ArrayList<Byte>  ArrayList<Character>   ArrayList<Integer> 
+
+static:
+静态随着类的加载而加载，静态与对象没有关系，所有对象共享，静态无法调用非静态，静态方法无法访问非静态，非静态方法可以访问所有，静态方法没有this关键字
+多用于测试类和工具类，即与对象无关的类。一般类名调用，不用对象名调用。
+
+多态的用处： 把子类对象赋值给父类引用，这样的好处是形参可以表示任意一个子类而无需对每个子类对象都重载方法
+成员变量：编译看左边(父类)，运行也看左边(父类)
+成员方法：编译看左边(父类)，运行看右边(子类)
+多态的弊端，不能调用子类的特有方法，因为编译看左边(父类)
