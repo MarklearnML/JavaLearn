@@ -76,12 +76,58 @@ StringJoiner sj = new StringJoiner(',', '[', ']');
 sj.add('a').add('b').add('c');
 sj.toString() == "[a,b,c]" 
 
-ArrayList:
+Array：
+toString() 把数组拼接为字符串
+binarySearch() 二分查找查找
+copyOf()  拷贝数组
+copyOfRange() 拷贝数组 指定范围
+fill  填充数组
+sort  数组排序
+sort(数组，规则) 按照规则排序数组
+
+lambda表达式:简化函数式接口的匿名内部类的写法    必须是接口的匿名内部类，接口中只能有一个抽象方法
+1.ArrayList:
 创建集合的对象   ArrayList<String> list = new ArrayList<>();
 .add()    .remove(E e)/remove(index)  .get(index)  .size()   
 基本数据类型的包装类：
 byye-Byte  char-Character  int-Integer
 ArrayList<Byte>  ArrayList<Character>   ArrayList<Integer> 
+
+集合：集合内的元素不能是基本数据类型，只能是对象或者是包装类
+1.collection：单列集合 是一个接口   方法： add(E e)  clear() remove(E e)  contains(Object ibj)   isEmpty()   size()
+list和set属于collection下的两种，list有序可重复可索引，set无序不可重复不可索引
+遍历：
+  迭代器遍历：Iterator   hasNext()//判断指针位置有没有元素 返回Boolean   next()//获取元素并移动指针
+  增强for：for(String s:Arraylist)
+  lambda:forEach(s-> {})
+list:  ArrayList   LinkedList   Vector   add(int index, E e)  remove(int index)  set(int index, E e)  get(int index)
+
+泛型<E> 形参类型不确定时，可以用泛型。当被调用时，类型就被确定。
+泛型通配符： ? externds E 可以表示E和E的子类    ? super E   可以表示E和E的父类
+
+红黑树：红黑树的规则以及添加节点的规则    红黑树的增删改查的效率都很高
+添加节点默认是红色的(添加红色节点效率更高)，违背红黑树则再调整
+
+HashSet的底层组成是哈希表(数组+链表+红黑树)：由元素的哈希值找到数组对应的索引，当索引非null，首先会查找索引上的属性值是否相同，用equals方法对比属性值，当不一样，则会在索引上组成链表，当链表大于8且数组长度大于等于64时，则会将链表转为红黑树
+HashSet需要去重，当里面的元素是自定义类型时，即自己定义的类，那么必须对自定义类中的HashCode和equals进行重写，这个IDEA可以帮我们写
+
+LinkedHashSet的底层依然是哈希表，但是他是有序的，因为插入元素是以双向链表形式存的，那么依然有序，只是没索引和不重复。
+
+TreeSet的底层是红黑树，无索引，不重复，可排序，默认从小到大的排序遍历
+可以在创建集合时用比较器排序(匿名内部类的方法)来自定义排序规则   也可以实现接口Comparatable  但是如果是String等，不建议修改源码
+
+2.Map：双列集合   有键值对，键不能重复，值可重复  是接口   方法有： put(K key, V value)  remove(Object Key)  clear()  containsKey(Object Key)   containsValue(Object value)  isEmpty()   size()   get(K key)
+遍历：
+建找值:遍历建，然后根据建找值
+键值对遍历:Set<Map.Entry<String, String>> entries = map.entrySet();
+Lambda遍历
+自定义类时，调用TreeMap时，需要实现Comparetable接口，如果不是自定义类型且需要自定义排序规则时，可以创建对象时用比较器接口来实现Comparator
+
+可变参数：方法形参的个数是可以发生变化的，int...a， 方法的形参中最多写一个可变参数且可变参数要写在最后
+
+工具类Collections:  .addAll(list, E...e)      .shuffle(list)  .sort(list)   
+
+List.of Set.of  Map.of  获得不可变集合
 
 static:
 静态随着类的加载而加载，静态与对象没有关系，所有对象共享，静态无法调用非静态，静态方法无法访问非静态，非静态方法可以访问所有，静态方法没有this关键字
@@ -118,3 +164,124 @@ public interface Swim{}
 new 类名或者接口名（）{
    重写方法；
 }
+
+
+常用API：
+1.Math： Math.abs(int a)   Math.ceil(double a)//向上取整   Math.floor(double a)//向下取整  Math.round(float a)//四舍五入  Math.max(int a, int b)   Math.pow(double a, double b) a的b次幂    Math.random()
+2.System: System.exit()//终止java虚拟机的运行   System.currentTimeMillis()  System.arraycopy(数据源数组,起始下标，目的地数组，起始下标，拷贝个数)；
+3.Object: toString()//重写 用于打印对象的属性     equals(Object obj)//重写 用于比较对象的属性    clone(int a)  //浅克隆  深克隆
+3.Objects: equals()   isNull  noNull   
+4.正则表达式：校验字符串是否满足一定的规则、在一段文本中找到满足要求的内容
+String.matches(正则表达式)
+
+Stream流：
+1.先得到一条Stream流(流水线)，并把数据放上去
+2.利用Stream流中的API进行各种操作
+ArrayList<String> list = new ArrayList<>()
+Stream<String> stream1 = list.stream()
+集合直接用对象.stream()
+数组则是用Array.stream(arr)
+双列集合获取Stream的方法：先将双列集合变成Set的单列集合再获取Stream流
+list.stream().filter(name->name.startWith("张")).filter(name->name.lenth()==3).forEeach(s->sout(s));
+Stream流只能用一次 所以用链式编程就好，不需要单独给变量
+操作方法:stream().distinct().skip().limit()   .concat()    .map()//类型转换 可以转换为类对象
+终结方法：forEach()  count()   toArray()  collect()！！！
+ArrayList<Integer> list1 = list.stream().filter(s->s%2==0).collect(Collectors.toList());
+Map<String, Integer> map = list.stream().filter(s->Integer.parseInt(s.split(",")[1])>=24).collect(Collectors.toMap(s->s.split(",")[0], s->Integer.parseInt(s.split(",")[0])));
+Stream.concat(list1.stream().filter(s->s.lenth()==3).limit(2), list2.stream().filter(s->s.startWith("杨").skip(1))).map(s->new Actor(s.split(",")[0]), Integer.parseInt(s.split(",")[1])).collect(Collectors.toList())
+
+方法引用：
+1.引用处必须是函数式接口
+2.被引用的方法的形参和返回值需要跟抽象方法保存一致
+3.被引用的方法必须已经存在
+方法引用的分类：
+1.引用静态方法：  类名：：方法
+2.引用成员方法：  对象：：成员方法   
+3.引用构造方法：  类名：：new
+4.使用类别引用成员方法：  类名：：成员方法  这个类名的引用被函数式接口中的第一个参数所限定 即第一个参数是哪个类 那么就只能引用这个类中的成员方法 
+5.引用数组的构造方法： 数据类型[]：：new  为了创建一个数组
+
+
+异常：Throwable  
+Error：系统错误
+Exception：异常
+  RuntimeException:运行时异常
+  其他异常：编译时异常
+自己处理异常：
+ try{
+
+ } catch(){
+
+ }finally{
+
+ }
+抛出异常：throw thows
+自定义异常
+
+
+File:File对象  构造方法   File(String name)  File(String parent, String child)  File(File parent, String child)
+isDiretory()  isExist()  isFile()
+length()   getAbsolutePath()   getPath()  getName()   lastModified()
+createNewFile()   mkdir()//单级创建   mkdirs()//多级创建  delete()
+listFiles((dir, name)->{
+     File src = new File();
+     return src.isFile() && src.endWith(".txt");
+})
+
+
+IO流：存储和读取数据的解决方案 字节流 字符流
+字节流：
+FileOutputStream  FileInputStream    创建 .close()   
+.write()  .write(byte[])  换行\r\n 续写 打开续写开关 创建对象时第二个参数写出true
+.read() .read(byte[]) 循环读取  判断读取是否为-1(没有字符了),while不断读取
+
+
+字符集：
+GBK  一个汉字使用两个字节存储，高位字节二进制一定以1开头  
+unicode是字符集 UTF-8是编码方式 
+为了防止乱码，不要用字节流读取文本文件，解码编码要使用同一个码表同一个编码方式
+编码：Bytes[] bytes1 = str.getBytes()  使用默认方式进行编码 (UTF-8(IDEA))
+编码：Bytes[] bytes1 = str.getBytes("GBK") 使用指定方式进行编码
+解码：new String(bytes1)
+解码：new String(bytes1, "GBK")
+
+字符流：适合纯文本文件
+FileReader  FileWriter
+
+
+高级流：  
+缓冲流 BufferedInputStream bis = new BufferedInputStream(new FileInputStream(path, ture));
+字节缓冲流的效率提高很多  但是字符缓冲流效率提高不大，不过有两个比较有效的方法，readLine   newLine
+BufferedReader    readLine()
+BufferedWriter    newLine()// 换行 
+
+转换流：
+
+序列化流：对象操作输出流  
+ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path));
+oos.writeObjecte(Student); //Student需要实现Serializble接口   
+oos.close()   
+序列化流将对象写到文件时，需要让Javabean类实现Serializable接口
+反序列化时，需要给Javabean类添加serialVersionUID版本号
+如果对象中的某个成员变量不想被序列化，可以用transient关键字修饰
+
+Commons-io     hutool  工具包
+
+多线程：
+并发：多个指令在单个CPU上交替执行
+并行：多个指令在多个CPU上同时执行
+1.继承Thread类的方式进行实现，重写run方法   然后创建对象 用.start()开启线程   当多个线程同时开启时，每个线程是并发的执行
+2.实现Runnable接口，重写run方法
+3.创建一个类MyCallable实现Callable接口  重写call(有返回值的，表示多线程运行的结果)
+常用的成员方法： currentThread()//得到当前的线程 返回Thread    sleep()  getName()   setName()   setPriority()//设置线程优先级 优先级高只是线程执行的概率高  getPriority()//得到优先级 默认5   setDaemon()//守护线程   yield()   join()  
+守护线程：当其他非守护线程执行完毕后，守护线程不管有没有执行完毕都会陆续结束
+由于线程的随机性，当多个线程操作共享数据时，可能会出现安全问题，如买票问题，结局方案是把操作共享数据的代码锁起来(同步代码块)
+不要让两个锁嵌套在一起 不然会死锁
+
+lock()  可以手动的上锁和释放锁   lock需要用静态关键字修饰  所有对象共享同一个锁
+等待唤醒机制  wait()//当前线程等待，直到被其他线程唤醒   notify()//随机唤醒单个线程    notifyAll()//唤醒所有线程    wait()和notify()都需要和锁进行绑定，唤醒的是和锁绑定的线程
+
+线程池ExecutorService    创建线程池  提交任务(实现Runnable或者Callable接口) pool.submit(new MyRunnable())  关闭线程池
+
+
+网络编程：
