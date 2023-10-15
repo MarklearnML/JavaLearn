@@ -285,3 +285,2614 @@ lock()  可以手动的上锁和释放锁   lock需要用静态关键字修饰  
 
 
 网络编程：
+java.net   C/S   B/S
+ip--设备在网络中的地址  port 端口号--应用程序在设备中的唯一标识  协议--数据在网络传输的规则
+localhost  127.0.0.1
+InetAddress address = InetAddress.getByName("IP地址") IP的对象  address.getHostAddress()   address.getHostName()
+端口号 0~65535 
+0~1023一般是知名的网络服务应用
+一个应用程序一个端口 port
+UDP 无连接    TCP 面向连接
+UDP协议：
+发送数据：  DatagramSocket ds = new DatagramSocker()   绑定端口，通过绑定的端口发送数据
+DatagramPacket dp = new DatagramPacket(数据，长度，IPDIZ ,端口)
+ds.send(dp)
+接收数据： DatagramSocket ds = new DatagramSocker()
+ds.receive(dp)
+
+UDP的组播和广播
+255.255.255.255 是广播  局域网中的所有地址都能收到
+224.0.0.1  局域网中224.0.0.1组的地址能收到
+
+
+反射： 可以通过对象的字节码文件对象获取对象里的所有内容：构造方法，成员变量、成员方法等
+首先获取字节码文件对象：   
+Class clazz = Class.forName("全类名：包名.类名");
+
+
+
+
+一：基础语法
+1.“Hello word”
+1.首先下新建一个文件夹存放代码，
+
+2.新建一个Java文件来存放Java的相关代码。
+
+注意点：文件的后缀名为Java（本文为Hellow.java）
+
+public class Hello {
+
+//class后面的名字应该和文件名保持一致，否则会报错
+
+  public static void main(String[] args){
+
+     System.out.print("Hello Word");
+//System.out.print("XXX")打印输出语句
+
+  }
+
+}
+在cmd的根目录i下进行执行的时候采用javac Hellow.java 来执行文件会生成一个class文件，接着执行java Hellow来执行编译文件就会自动的打印输出Hello word！。
+
+2.Java的运行机制
+1.编译型：直接编译成系统可以理解的语言。这样的执行速度会更快。
+
+2.解释型：把机器不懂的地方进行解释从而来进行执行。
+
+Java编译器将准备好的源文件编译成了class文件，真正被执行的应该是class文件。此时将class文件放入到类加载器，放在Jvm中进行。字节码校验器来进行代码的校验，校验完成若没有了错误，此时的解释器便开始工作将我们的程序解释给操作系统从而进行解读。
+
+
+
+3. Java基本语法
+1.注释、标识符、关键字
+注释（以代码为例）：
+
+public class HelloWord {
+    public static void main (String[] args){
+        //单行注释：只能注释一行内容
+        //输出一个HelloWord
+        System.out.println("Hello Word!");
+        /*为多行注释：可以注释多行内容*/
+        /*System.out.println("Hello Word1!");
+        System.out.println("Hello Word2!");
+         */
+        //JavDdoc文档注释
+        /**文档注释：可以加功能
+         * @Author 代码贩子、 --南京邮电大学
+         */
+    }
+}
+（标识符）：Java中所有的组成部分都需要名字。类名，变量名，以及方法名都称之为标识符。
+注意点：所有的标识符都应该以（A——z）、$、或者是下划线开始的。
+
+              首字符之后可以是（A——z）、$、或者是下划线的组合。
+
+              关键字不可以作为名字。
+
+
+
+可以是中文名字但是一般不采用，因为太Low，会被同行看不起。
+
+标识符是大小写敏感的。
+
+2.数据类型（四类八种）
+Java为一款强类型的语言，所有变量的使用必须严格的符合固定，所有的变量只有被定义后才能进行使用。
+
+
+
+4.类型转换
+重点提示：（有人问为什么long占的字节比float的多还排在float后面？因为在发生转换的时候小数的优先级要大于整数。）不同类型的数据结构先转化为同一类型的，然后再进行计算。
+
+强制转换分为两种，一种是从低到高的转换方法，一种是从高到低的转换方法。
+
+
+
+1.自动转换
+显式（规则：数据范围从低到高）：代码不需要进行处理并且直接可以完成转换。
+
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+public class HelloWord {
+    public static void main (String[] args){
+        //直接输出一个整数，默认是int型
+        System.out.println("30");
+        //直接输出一个小数，默认是double型
+        System.out.println("3.12");
+        //（1）左边是long类型，右边是int类型
+        //（2）=进行赋值，右边默认给左边 int——>long满足从低到高的转换规则
+        //（3）这一行代码发生了自动转换
+       long name1=100;
+       System.out.println(name1);
+       //(1)右边是float类型，左边是double类型
+       //（2）float->double，满足从低到高的转换规则
+      //（3）所以发生了自动转换
+       double name2=3.1415926F;
+       System.out.println(name2);
+       //(1)右边是long类型，左边是float类型
+       //（2）long->float,满足从低到高的转换规则
+       //（3）所以发生了自动转换
+       float name3=30L;
+       System.out.println(name3);
+    }
+}
+ 2.强制转换
+代码需要进行处理不能够自动的完成转换。
+
+格式：（范围小的类型）+范围小的变量名=（范围小的类型）+原本范围大的数据
+
+注意：（1）在进行前置转换的时候可能会出现内存溢出、精度丢失等现象。
+
+           （2）byte/short/char这三种类型可以进行数学计算。
+
+           （3）byte/short/cha这三种类型在进行运算的时候首先会被默认为是int卡类型。
+
+           （4）布尔类型不可以进行任何的数据转换。
+ 
+
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+public class HelloWord {
+    public static void main (String[] args){
+        //（1）右边是long类型，左边是int类型
+        //（2）long->int 不是从高到低，所以需要进行强制转换
+        //（3）格式：（较小的数据类型）+较小的变量名=（较小的数据类型）+（原本范围较大的数据）
+        int nume1 = (int) 100L;
+        System.out.println(nume1);
+        //（1）右边是int类型，左边是int类型
+        //（2）int->byte
+        //（3）格式：（较小的数据类型）+较小的变量名=（较小的数据类型）+（原本范围较大的数据）
+        //写法一：
+        int a = 200;
+        byte b = (byte) a;
+        //写法二：
+        byte nume2 = (byte) 200;
+        //输出值为-56
+        //原因为200超过了byte的数据范围，发生了内存溢出的现象，所以在发生强制转换之后的输出值为负数。
+        System.out.println(b);
+        System.out.println(nume2);
+        float c = 3.14f;
+        int d = (int) c;
+        //此时的输出值为3
+        //因为在强制转换的时候float->int会发生精度丢失的问题，所以最后的输出值为3而不是3.14。
+        System.out.println(d);
+        //输出的值为97
+        char e ='a';
+        int f= (int)e;
+        System.out.println(f);
+        //输出的值为b
+         int g= f+1;
+        System.out.println((char) g);
+        //应该是20000000000，但是实际的结果输出的为一个负数
+        //那是因为计算的时候溢出了
+        int moeny = 10_0000_0000;
+        int years = 20;
+        int total = moeny*years;
+        System.out.println(total);
+        //虽然发生了自动转换还是输出的为负数
+        //因为默认是int并且在转换之前就已经出现了问题。
+        long total2 = total;
+        System.out.println(total2);
+        //此时输出的结果为正确的数值
+        //输出的结果为20000000000
+        //解决方法：先把一个数据转化为long类型
+        long total3 = moeny*(long)years;
+        System.out.println(total3);
+    }
+}
+5.常量和变量
+1.常量
+定义：在程序运行期间固定不变的量
+
+格式：final 常量名 = 值；
+
+          final double PI = 3.1415926；
+
+ 常量的分类：
+
+ （1）字符串常量：凡是用双引号引起来的量：如“ABC” "Hellow" "123"
+
+  （2）整数常量：无小数点的数字：如1 -100  0
+
+  （3）浮点型：直接写上的数字，有小数点：如2.5 -3.14 0.0
+
+  （4）字符常量：凡是用单引号引起来的单个字符：如‘A’ ‘b’ '1' '中'
+
+  （5）布尔常量：只有量中取值：如 true false
+
+  （6）空常量：null 代表没有任何的数组
+
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+public class HelloWord {
+    public static void main (String[] args){
+        //字符型常量
+        System.out.println("kj10");
+        System.out.println("");//两个双引号之间的内容为空，也有打印输出
+        System.out.println("ABC");
+        //整数常量（整数）
+        System.out.println(-400);
+        System.out.println(0);
+        //浮点型（小数）
+        System.out.println(3.14);
+        System.out.println(-0.25);
+        //字符常量
+        System.out.println('帅');
+      //  System.out.println('AB');
+       // System.out.println('');//字符常量有且仅有一个字符，不能有两个，也不能为空
+        //布尔常量
+        System.out.println(true);
+        System.out.println(false);
+        //空常量
+       // System.out.println(null);//空常量不能直接打印输出
+        System.out.println();//或者什么都不写可以进行打印输出
+    }
+}
+2.变量
+定义：可以随时发生变化的量，也是Java程序中最基本的储存单元，其要素包括变量名，变量类型和作用域。
+
+注意点：（1）每个变量都有类型，类可以是基本类型也可以是引用类型。
+
+              （2）变量名必须是合法的标识符。
+
+              （3）变量声明的是一个完整的语句，所以每一个声明必须都要以分号结束。
+
+              （4）修饰符不存在前后的顺序，可以是 final static double PI = 3.1415926；也可以是 static final double PI = 3.1415926；
+
+格式;数据类型 + 变量名 = 值；（可以用逗号隔开来来声明多个同类型的变量）。
+
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+public class HelloWord {
+    public static void main (String[] args){
+        //写法一:
+        //为了方便程序的可读性，所以不建议这么写
+        int a=1,b=2,c=3;
+        //写法二（推荐写法）：
+        int d = 1;
+        int e = 2;
+        int f = 1;
+    }
+}
+3.变量的作用域
+（1）类变量：写在类里面的变量，加上satatic的关键字。
+
+（2）实例变量：写在方法的外面，类的里面（从属于对象，或者理解为从属于这个类，要通过这个类来使用它，如果不规定初始值则利用的是初始值）并且不需要进行初始化。
+
+（3）局部变量：写在方法里面的变量（包括写在主程序里面的方法），必须声明和初始化值。
+
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+public class HelloWord {
+    //类变量：加上关键字static
+    //类变量是从水属于这个类的，会随着这个类一起出来和消失。
+    static double saLary = 2500;
+    //实例变量：写在方法的外面，类得 里面。从属于对象或者是从属于这个类，要通过这个类才能使用它，可以不设置初始值
+    String name;
+    int age;
+    //主程序的方法或者是叫mian方法
+    public static void main (String[] args){
+        //局部变量是写在方法里面的，只对这个方法负责，跳出方法之外就不能被使用
+        //所有的局部变量必须声明和设置初始值
+        int i = 10;
+        System.out.println(i);
+        //使用面向对象的范畴
+        //左边的HelloWord为自定义类型，helloWord为引用类型
+        //变量类型+变量名字=值为new 变量HelloWord（）；将相当于拿到了自己，也就是把自己给自己才能拿到自己的实例变量
+        //如果实例化对象不给初始值，则会默认输出默认初始化的数值。
+       HelloWord helloWord= new HelloWord();
+       System.out.println(helloWord.name);
+       System.out.println(helloWord.age);
+       //类变量：加上关键字static
+        //如果去点static则不会被调用
+        System.out.println(saLary);
+    }
+    //新写的一个增加的方法
+    public void add(){
+        //这里不能说输出变量i是因为局部变量不在add的方法里面。
+        System.out.println(i);
+      HelloWord helloWord= new HelloWord();
+      //这里的add方法可以调用实例变量，是因为add方法在实例变量的作用域内
+      System.out.println(helloWord.name);
+      System.out.println(helloWord.age);
+      //这里的add方法也作用在类变量的作用域内，所以可以调用类变量
+      System.out.println(saLary);
+    }
+}
+6.运算符
+1.算数运算符
+算数运算符：+、-、*、/、%（取余）
+
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+public class HelloWord {
+    public static void main (String[] args){
+        long a = 3000000000000000000L;
+        int b = 20;
+        double c = 3.14;
+        int d = 10;
+        //因为有double类型的，所以输出为double类型
+        System.out.println(a+b+c+d);
+        //输出的为3000000000000000020，明显超出了int类型，因为有long类型，这里发生了自动转换，默认为龙类型
+        System.out.println(a+b);
+    }
+}
+2.赋值运算符
+赋值运算符：=
+
+赋值运算符：=、+=、-+、*+、/=、%=
+
+（1）+=    a +=3    相当于     a=a+3
+（2）-=    a -=3    相当于     a=a-3
+（3）*=    a *=3    相当于     a=a*3
+（4）/=    a /=3    相当于     a=a/3
+（5）%=    a %=3    相当于     a=a%3
+
+注意事项：只有变量才能使用赋值运算符
+
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+public class fx{
+    public static void main(String[] args){
+        int a=10;
+        a+=5;
+        System.out.println(a);//15
+    }
+}
+3.关系运算符
+关系运算符:>、<、>=、<=、==(相等)、!=(不等)
+
+注意：（1）比较运算符的结果必须是个布尔型，成了为ture，不成立为false
+           （2）如果进行多次判断不可以连着写 例如1<x<3
+
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args){
+        int a=10;
+        int b=20;
+        int c=20;
+        System.out.println(a>b);//false
+        System.out.println(a<b);//true
+        System.out.println(a>=b);//flase
+        System.out.println(a<=b);//true
+        System.out.println(a==b);//false
+        System.out.println(a!=b);//ture
+        System.out.println(b==c);//true
+    }
+
+4.逻辑运算符
+逻辑运算符：&&(与)、||(或)、！(非)
+
+注意：（1）“&&和||”同时使用的时候会出现短路的情况，如果左边已经得到了结果，那么右面的将不再执行。
+
+           （2）“&&和||”左右各需要一个布尔型。但是取反只需要一个布尔型即可。
+
+           （3）“&&和||”如果有多个条件可以进行连写。
+
+              两个条件：条件A&&条件B
+
+             三个条件：条件A&&条件B&&条件C
+
+对于1<x<3的情况，写的时候应该拆成两个部分， 然后用&&运算符连接起来。比如（1<x,&&x<3）
+
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args){
+        System.out.println(true&&false);//false
+        System.out.println(true&&true);//true
+        System.out.println(3<5&&5<6);//true
+        System.out.println(true||true);//true
+        System.out.println(true&&false);//true
+        System.out.println(false&&false);//false
+        System.out.println(true);//true
+        System.out.println(!true);//false
+        //短路
+        int a=10;
+        System.out.println(3>4&&++a<20);//true   左边已经可以判断得到最终结果，右边将不在执行
+        System.out.println(a);//10
+        int b=20;
+        System.out.println(3<4||++b<30);//true   左边已经可以判断得到最终结果，右边将不在执行
+        System.out.println(b);//20
+    }
+5.自增、自减运算符
+++、--
+
+基本含义：让变量上升或者是下降一个为1的值。
+
+注意：在单独使用的时候++a和a--没有什么区别。
+
+          在混合使用的时候：前++为先加后用。变量+1然后拿着加上的值继续使用。
+
+                                          后++为变量直接使用，然后在加上1。
+
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */   
+     public static void main (String[] args){
+        int a = 10;
+        int b = ++a;
+        //如果不写++a，那么输出的a的值为10；加上的话输出的值为11，因为++a为先加后用。
+        System.out.println(a);//11
+        System.out.println(b);//11
+        int c = a++;
+        //先用后加
+        System.out.println(c);
+    }
+二：Scanner与流程控制：
+1.Scanner用法
+          第一步：导入sacnner类   import Java.until.*;(写在公共类的来头）
+
+         第二步：创建Scanner对象 Sacnner scanner=new Scanner（system.in);//构造Scanner类的对象sc,接收从控制台输入的信息
+
+         第三步：打印输出提示符号 System.out.println（"提示文字）；
+
+         第四步：获取键盘输入的数据  String src=input.nextlnt()/nextLine();
+
+         第五步：打印输出值：System.out.println("打印输出的值为:");
+
+         第六步：hasNext()/hasnextLine()来判断是否还有下一个输入。
+
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args){
+        //new Scanner()为创建一个Scanner对象，或者说是创建一个Scanner扫描器；
+        //System.in用来接收键入的数据
+        Scanner scanner = new Scanner(System.in);
+        //提示输入的数据
+        System.out.println("请输入数据：");
+        //等待你所有的输出，将字符串的额变量全部保存在变量中最后在通过下一句进行输出。
+        String src = scanner.next();
+        //用来提示输出数据
+        //这里在输出带有空格的字符串会出现空格之后的不输出，因为next()不能得到带有空格的字符串。
+        System.out.println("您输出的数据为："+src);
+        //如果使用的是nextLine()来进行接收，就可以获得空格之后的所有字符。因为nextLine()是以Enter为结束符，nextLine()方法返回的是输入回车之前的所有字符。
+        String src2 = scanner.nextLine();
+        System.out.println("您输出的数据为："+src2);
+        //I/O流来进行关闭，减少所占用的资源。
+        scanner.close();
+    }
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args){
+        //new Scanner()为创建一个Scanner对象，或者说是创建一个Scanner扫描器；
+        //System.in用来接收键入的数据
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入数据：");
+        //if语句来进行是否还有数据的输入
+        //scanner.hasNext()，看一下这个对象还有没有下一个。
+        if(scanner.hasNext()){
+            //通过scanner来接收用户的数据。
+            String src = scanner.nextLine();
+            //输入的内容为src的字符串
+            System.out.println("您输出的信息为"+src);
+        }
+        //I/O流关闭资源
+        scanner.close();
+    }
+
+ 
+
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args){
+        int a = 10;
+        float b = 3.14f;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入一个整数：");
+        if(scanner.hasNextInt()){
+            a = scanner.nextInt();
+            System.out.println("您输入的整数值为："+a);
+        }else{
+            System.out.println("您输入的不是整数！");
+        }
+        System.out.println("请输入一个小数：");
+        if(scanner.hasNextFloat()){
+            b = scanner.nextFloat();
+            System.out.println("您输入的小数值为："+b);
+        }else{
+            System.out.println("您输入的不是小数！");
+        }
+        scanner.close();
+    }
+练习：键入多个数字，求输入数字的平均值以及总和。在输入数值的时候需要通过回车键来进行确认，并且通过非数值来结束，结束时输出对应的总和以及平均数的计算结果。
+
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args){
+        //首先定义两个数值，sum以及输入的次数。
+        double sum = 0;//定义初始值为0的总和sun
+        int m = 0;//定义输入的次数m
+        //创建扫描器
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入一个数：");
+        //判断是否还有数据的输入
+        while (scanner.hasNextDouble()){
+            //输入一个随机数值
+           double x = scanner.nextDouble();
+            //输入了m+1次
+            m++;//m=m+1
+            //每次输入的数值相加，最后赋值给sum
+            sum = sum+x;
+            System.out.println("你输入了"+m+"次数值，当前的和为"+sum);
+        }
+        System.out.println("前"+m+"次的总和为"+sum);
+        System.out.println("输入"+m+"次之后的平均值为"+sum/m);
+        scanner.close();
+    }
+2.流程控制
+1.顺序结构
+定义：Java的基本结构就是顺序结构，除非特殊指明，否则就按照顺序一步一步的执行。
+
+
+
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args){
+        System.out.println("今天天气不错");
+        System.out.println("拿了十块钱");
+        System.out.println("去网吧打撸啊撸");
+    }
+3.if选择结构
+1.单if语句
+ if(关系表达式<或者是布尔表达式>){  
+    语句体（true就成立执行语句体，false就绕过了语句体，直接输出结束。）；
+}
+
+
+
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args){
+        Scanner scanner = new Scanner(System.in);
+        String str = scanner.nextLine();
+        //str.equals("hello"判断是否为真
+        if (str.equals("hello")){
+            System.out.println(str);
+        }
+        System.out.println("End");
+        scanner.close();
+    }
+2.标准语句
+if（关系表达式）{
+
+语句体1；
+
+}else{
+
+语句体2；
+
+}
+
+注意：如果关系表达式为ture则执行语句体1，如果表达式为false则执行语句体2。
+
+           在执行的时候不能两个都执行，也不能两个都不执行。
+
+
+
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入您要验证的成绩:");
+        double score = scanner.nextDouble();
+        if (score>=60){
+            System.out.println("您的成绩合格！");
+        }else{
+            System.out.println("您的成绩不合格！");
+        }
+        scanner.close();
+    }
+3.扩展语句
+if（判断条件1）{
+
+语句体1；
+
+}else if（判断条件2）{
+
+语句体2；
+
+}
+
+...........
+
+else if（判断条件n）{
+
+语句体n；
+
+}else{
+
+语句体n+1；
+
+}
+
+注意：如果满足条件一，则下下面的将不再执行，如果为false则执行语句体2、3、n。有一个满足的下面的将不再执行。
+
+          如果以上的都不满足，将会无条件的执行else里的n+1的条件语句。
+
+
+
+小练习：输入指定的考试成绩，判断考试的等级：1.90-100 优秀；2.80-89  良；3.70-79  中；4.60-69  合格；5.0-59   差。
+
+ /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入您要验证的成绩:");
+        double score = scanner.nextDouble();
+        if (score>=90&&score<=100){
+            System.out.println("您的成绩为优秀，请保持状态！");
+        } else if (score>=80&&score<=89){
+            System.out.println("您的成绩为良，还有提升的空间！");
+        } else if (score>=70&&score<=79){
+            System.out.println("您的成绩为中等，你还可以更进一步！");
+        }  else if (score>=60&&score<=69){
+            System.out.println("您的成绩为合格，请继续努力！");
+        }else if (score>=0&&score<59){
+            System.out.println("您的成绩不合格，请加倍努力！");
+        }else{
+            System.out.println("您的输入有误，请重新输入！");
+        }
+        scanner.close();
+    }
+4.switch选择结构
+1.break关键字
+break关键字可以用在switch中，一旦执行，整个switch将立刻结束。
+break关键字也可以用在其他语句中，整个循环语句立刻结束，打断循环。
+
+2.default关键字
+default的作用是在case匹配失败之后才会被执行，打印出来相对应的输出信息。
+3.continue关键字
+contine关键字立即跳过本次的循环，进入到下一个循环语句当中。
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args){
+        char grade = 'c';
+        //switch匹配一个值比较方便
+        switch (grade){
+            case 'a':
+            System.out.println("优");
+            break;
+            case 'b':
+                System.out.println("良");
+                break;
+            //break在整个语句中，一旦被执行将会结束整个循环。
+            //如果不加break将会出现贯穿的现象。
+            //c和d如果不加break将会打印输出“中”后面的所有的输出字符。
+            case 'c':
+                System.out.println("中");
+                break;
+            case 'd':
+                System.out.println("差");
+                break;
+            //default的作用是在case匹配失败之后才会被执行，打印出来相对应的输出信息。
+            default:
+                System.out.println("您的输入有误！");
+        }
+    }
+5.循环结构
+循环结构表
+
+顺序上
+
+应用上
+
+格式
+
+For循环
+
+先判断。在执行。
+
+循环次数确定，通常用for循环。
+
+for（初始化表达式；条件判断；步进语句）{
+      循环体
+
+}
+
+While循环
+
+先判断。在执行。
+
+循环次数不确定，通常用whiler循环。
+
+初始表达式；
+
+While（条件判断）{
+循环体
+
+步进语句
+
+}
+
+Do  whlle循环
+
+先执行，在判断
+
+循环次数不确定，通常用whiler循环。
+
+初始表达式；
+
+Do{
+循环体
+
+步进语句
+
+}while（条件判断）；
+
+1.while循环
+在进行执行的时候首先对条件语句进行判断才进行执行，在循环次数不确定的时候通常使用while循环语句。
+
+初始表达式；
+
+while（条件判断）{
+
+循环语句；
+
+步进语句；
+
+}
+
+
+
+小练习：使用whlle循环语句来计算1+2+3+……+100的和。
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args){
+        int i = 0;
+        int sum = 0;
+        while (i<=100){
+            sum = sum + i;
+            i++;
+            System.out.println("此时运行了：" + i+"次，" + "此时的和为"+sum);
+        }
+        System.out.println("和为：" +sum);
+    }
+2.do while循环
+在执行的时候首先执行才能进行判断，即使不能满足条件也至少执行一次。循环次数不确定，通常用whiler循环。
+
+初始语句；
+
+do{
+
+循环体；
+
+步进语句；
+
+}while（条件判断表达式）；
+
+
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args){
+        int i = 0;
+        int sum = 0;
+       do {
+               sum = sum + i;
+               i++;
+               System.out.println("此时运行了：" + i+"次，" + "此时的和为"+sum);
+           } while (i<=100);
+        System.out.println("和为：" +sum);
+    }
+3.for循环（重点）
+在执行的时候先进性判断然后在执行，在执行的时候循环次数确定。
+
+for（初始值；条件表达式；步进语句）{
+
+循环体1；
+
+}else{
+
+循环体2；
+
+}
+
+
+
+小练习1：求100以内（包括100）的奇数偶数的和以及总体的和。
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args){
+        int sum1 = 0;
+        int sum2 = 0;
+        for (int i = 0; i <=100 ; i++) {
+            if (i%2!=0){
+                sum1+=i;
+            }else{
+                sum2+=i;
+            }
+            System.out.println("此时的和为："+sum1);
+            System.out.println("此时的和为："+sum2);
+        }
+        System.out.println("此时的和为："+sum1+sum2);
+    }
+小练习2：用for循环输出1-1000以内（包含1000）内所有可以被5整除的数，并且每一行只打印三个。
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args){
+        for (int i = 0; i <=1000 ; i++) {
+            //这里说明是可以被5整除的数，我们把它输出出来
+            if (i%5==0){
+                System.out.print("您得到的数为："+i+"\t");
+            }
+            //如果i模5*3。那么就是先换行
+            if (i%(5*3)==0){
+                System.out.print("您得到的数为："+"\n");
+            }
+        }
+    }
+3.小练习：打印等腰三角形
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args){
+        for (int i = 1; i <= 5; i++) {
+            for(int j = 5;j >= i;j--){
+                System.out.print(" ");
+            }
+            for (int j = 1;j <= i;j++){
+                System.out.print("*");
+            }
+            for (int j = 1;j < i;j++) {
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+4.小练习：利用for循环打印九九乘法表。
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args){
+        //3.加入for循环之后将常量1都替换成变量j。下面需要去掉重读的项目。找一下是哪里写死的原因
+        //4.此时发现缺2*9 3*9 4*9......
+        //5.此时只要减少重复项即可，我们发现j是不变的，只有i<j的时候才能满足
+        for (int j =1;j<=9;j++){
+            //1.先打印第一列
+            for (int i = 1; i <=j; i++) {
+                //2.输出成1*i的形式，此时应该考虑怎么解决2* 3*的问题，如果解决的话需要将常量1改成变量的形式，在佳茹一个for循环
+                System.out.print(j+"*"+i+"="+(j*i)+"\t");
+            }
+            //每输出一行进行换行
+            System.out.println( );
+        }
+    }
+4. 增强for
+主要用来遍历数组和集合的。
+
+for（声明语句：表达式）{
+
+代码句子；
+
+}
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args){
+        int[] i ={10,20,30,40,50};
+        //上下相等，这里是数组部分，目前可以不做讨论。
+        for(int x =0;x<5;x++){
+            System.out.println(i[x]);
+        }
+        //数组每一项遍历出来赋值给int x，x指的就是每一个数值
+        for (int x:i){
+            System.out.println(x);
+        }
+    }
+三：方法的定义和调用
+1.方法的定义：方法包括一个方法的开头和一个方法体。
+
+修饰符 返回值类型 方法名（参数类型 参数名）{
+
+方法体；
+
+return 返回值；
+
+}
+
+解释：
+
+修饰符可以有 public static final等
+
+返回值类型如果为void则返回为空，也就是不需要rutern，如果是int等类型需要进行返回，
+
+方法名可以根据命名的规则来自己进行定义，比如增加的add方法和删除的del方法。
+
+参数类型包括两种，一个形式参数和一个实际参数。参数像是一个占位符，可以被选择，也可以不做选择（也就是方法可以 不含参数）。
+
+***形式参数指的是在方法被调用时来接收外界输入的数据。
+
+***实际参数指的是调用方法实际传给对方的参数。
+
+方法体：包括定义的具体语句以及定义该方法的功能。
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args){
+        //直接调用方法，给个实际参数1和2。
+        /*
+        上面的参数1和2传输给下面的a和b，经过reyurn传给sum进行输出。
+        也就是通过这个语句来调用这个方法。
+         */
+        int sum = add(1,2);
+        System.out.println(sum);
+    }
+    //写一个add的方法，给个形式参数a和b，想要被main方法调用，需要用修饰符static改成类方法
+    //这里的加法需要定义函数，使用形参的形式
+    public static int add (int a,int b) {
+        //返回一个值，如果是void则不需要进行返回，如果是int等则需要进行返回并且一一的对应。
+        return a + b;
+    }
+2.方法的调用：
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args) {
+        //这里的maxmin作为有参的结果赋给max这个值在进行打印输出。
+        int max =maxmin(30,30);
+        //这里的方法没有返回值，只用来传递参数来进行输出。
+        System.out.println(max);
+    }
+    public static int maxmin(int a,int b){
+        int result=0;
+        if(a==b){
+            System.out.println("a=b");
+            return 0;//终止方法
+        }
+        if (a>b){
+             result=a;
+        }else{
+            result=b;
+        }
+        return result;
+    }
+例如：int max =maxmin(30,30);
+
+如果方法为void，方法的调用一定是一条语句。
+
+例如：System.out.println("Hello word");
+
+小练习：调用方法打印正三角形。
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args){
+        test();
+    }
+    public static void test(){
+        for (int i = 1; i <= 5; i++) {
+            for(int j = 5;j >= i;j--){
+                System.out.print(" ");
+            }
+            for (int j = 1;j <= i;j++){
+                System.out.print("*");
+            }
+            for (int j = 1;j < i;j++) {
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+2.方法重载
+
+简单的说就是方法名称相同，方法里面包含的参数类型不同。
+
+方法重载的规则：
+
+1.方法名必须相同。
+
+2.参数名称必须不同。（个数不同，类型不同，排列顺序不同等。）
+
+3.方法的返回值可以相同也可以不同。
+
+4.仅仅是返回值类型不同则不可以完成方法的重载。
+
+实现理论：方法名称相同的时候，编译器会根据方法参数类型的个数，参数类型去逐个匹配，以选择对应的方法，如果匹配失败，编译器会报错。
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args) {
+        //这里的maxmin作为有参的结果赋给max这个值在进行打印输出。
+        double max =maxmin(30.0,20.0);
+        //这里的方法没有返回值，只用来传递参数来进行输出。
+        System.out.println(max);
+    }
+    public static double maxmin(double a,double b){
+        int result=0;
+        if(a==b){
+            System.out.println("a=b");
+            return 0;//终止方法
+        }
+        if (a>b){
+            //这里从高到低需要进行强转
+            result=(int) a;
+        }else{
+            result=(int) b;
+        }
+        return result;
+    }
+    public static int maxmin(int a,int b){
+        int result=0;
+        if(a==b){
+            System.out.println("a=b");
+            return 0;//终止方法
+        }
+        if (a>b){
+             result=a;
+        }else{
+            result=b;
+        }
+        return result;
+    }
+四：数组
+1.维数组
+1.数组的定义
+1.数组是一个容器，可以用来存放多个数组。
+
+2.数组的特点：
+
+数组是一种引用类型。
+
+数组中存在的多个数据的类型必须是统一的。
+
+数组的长度在运行中是不可以改变的。
+
+2.动态和静态数组
+静态数组：
+
+在创建的额时候不指定其长度，直接指定内容。
+
+格式： 数据类型[ ] 数组名字 = new 数据类型[ ]{元素1，元素2，元素3......}；
+
+           数据类型[ ] 数据名称 = {元素1，元素2，元素3......}；
+
+注意事项：虽然静态数组没有指出其长度，但是我们可以根据内容来计算出长度。
+
+                  静态数组的创建过程可以拆分为两个步骤，如果携程省略的格式，那么就不可以拆分成两个步骤。
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args) {
+        //直接创建一个数组，里面全是int数字，
+        int[] arr1 = new int[]{10,20,30,40,50};
+        int[] arr2 = {10,20,30,40,50};
+        //拆分写
+        int[] arr3;
+        arr3=new int[4];
+        int[] arr4;
+        arr4= new int[]{10,20,30,40,50};
+    }
+动态数组：
+
+动态数组在进行创建的时候直接指定数据的长度。
+
+格式：数据类型[ ] 数组名称 = new 数据类型[数组长度]；
+
+解释含义：
+
+左边的数据类型：数组当中保存的数据类型全都是统一的数据类型
+
+左边的[ ]:代表的是一个数组
+
+数组名称：我们定义的数组名称
+
+new ；代表的是创建数组的动作。
+
+右边的数据类型：必须和左边的数据类型是相统一的
+
+右边的[ ] :也就是数组上可以保存多少个数据，为一个int数字。
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args) {
+        //声明一个可以保存300个int的数据的数组。
+        int[] arr1 = new int[300];
+        double[] b=new double[300];//创建一个数组，可以存放300个double数据
+        String[] c=new String[5];//创建一个数组，可以存放300个String数据
+    }
+3.数组的打印输出
+如果直接打印数组的名字，则输出的是数组在内存地址中对应的哈希值。如果想要出现数据应该是数组名字+[索引值]（索引值是int数字，代表的是数组当中元素的编号。）（索引值是从0开始的，一直到数组的长度-1为止）
+
+使用动态初始化数组的时候，其中的元素都会存在一个默认值，其默认规则如下所示：
+
+（静态初始化也有默认值的过程，只不过系统自动马上将默认值替换为了大括号当中的具体数值）
+
+默认规则
+
+整型
+
+浮点型
+
+字符型
+
+布尔型
+
+引用类型
+
+默认类型
+
+0
+
+0.0
+
+\u0000
+
+false
+
+null
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args) {
+        //静态初始化：创建+赋值
+        int[] a ={1,2,3,4,5};
+        System.out.println(a[0]);
+        //动态初始化：包含默认初始化
+        int[] b = new int[10];
+        b[0]=10;
+        b[1]=10;
+        System.out.println(b[0]);
+        System.out.println(b[1]);
+        //这里输出的是0
+        System.out.println(b[2]);
+        //这里输出的是0
+        System.out.println(b[3]);
+    }
+4. Java内存
+
+
+在Java的内存机制里面存在栈、堆和方法区。我们在声明数组的时候，比如int[ ] array = null;此时的堆中是空的，但是在栈中会压入一个array。我们声明的数组是一个空的，这个名字并没有一个实际的作用。我们在创建数组的时候（array = new int[10];）,我们new关键词的东西都会放在堆里面。 在做完这一步的时候，array在堆里面就开辟了一个空间，这个空间里面开辟的是初始的大小为10，并且都是我们定义的int类型的。我们的对象也就是存在于这个地方的。第三步在给数组元素赋值的时候，里面才有值，如果没有赋值的时候，里面则是一个默认值，如果是输出第十一个数值的时候会出现一个错误java.lang.ArrayIndexOutOfBoundsException: 10，也就是数组下标越界的情况。 （出现数组下标越界的情况可能是个这个数值不存在或者是不再这个开辟的数组对象的范围内等，所以就出现了拿不到的情况，从而出现了下标越界的bug。）
+
+
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args) {
+        //静态初始化：创建+赋值
+        int[] a ={1,2,3,4,5};
+        System.out.println(a[0]);
+        //动态初始化：包含默认初始化
+        int[] b = new int[10];
+        b[0]=10;
+        b[1]=10;
+        System.out.println(b[0]);
+        System.out.println(b[1]);
+        //这里输出的是0
+        System.out.println(b[2]);
+        //这里输出的是0
+        System.out.println(b[3]);
+        //数组的下标越界，出现了新的bug（java.lang.ArrayIndexOutOfBoundsException: 10）
+        System.out.println(b[10]);
+    }
+4.数组的使用
+1.for each（增强for）
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args) {
+        int[] arrays = {1,2,3,4,5};
+        //arrays代表的是一个数组，nt array代表的是每个数组里面的每一个元素,但是取不到下标。
+        for (int array: arrays){
+            System.out.println(array);
+        }
+    }
+2.数组做方法入参
+
+数组可以封装成一些参数，一半在里面调用它进行操作即可。
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args) {
+        int[] arrays = {1,2,3,4,5};
+        test(arrays);
+    }
+    public static Void test(int[] arrays) {
+        for (int i = 0; i < arrays.length; i++) {
+            System.out.println(arrays[i]);
+        }
+        return null;
+    }
+3.数组做返回值
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args) {
+        int[] arrays = {1,2,3,4,5};
+        /*
+        调用reverse方法，将arrays传进来，这样会返回一个结果int[] reverse 这个显示的就是已经被反转过的数组。
+         */
+        int[] reverse = reverse(arrays);
+        test(reverse);
+    }
+    public static int[] reverse(int [] arrays){
+      /*反转的话可以考虑将第一个赋值给最后一个
+        int[arrays.length]是保证进来的数组和返回的是一个结果
+        int[] result = new int[arrays.length];
+     */
+        int[] result = new int[arrays.length];
+      /*
+       for (int i = 0; i < ; i++) 将我们结果里面的每一个值从我们传入的arrays拿出来
+       因此我们可以用result【】 = arrays【i】来进行，就是将传入的i个元素传入到result的元素
+       我们需要j=result.leatch-1；j--
+      * */
+        for (int i = 0, j=result.length-1;i <arrays.length ; i++, j--) {
+            //将传进来的第一个i元素传给我们附近来的最后一个元素j
+             result[j] = arrays[i];
+        }
+        return result;
+    }
+    public static Void test(int[] arrays) {
+        for (int i = 0; i < arrays.length; i++) {
+            System.out.println(arrays[i]);
+        }
+        return null;
+    }
+小练习：取数组的最大最小值以及求和。
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args) {
+        int[] arrays = {1,2,3,4,5};
+        int max = arrays[0];
+        for (int i = 1; i <arrays.length ; i++) {
+            if (max<arrays.length){
+                max = arrays[i];
+            }
+        }
+        System.out.println("此时最大的值为："+max);
+    }
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args) {
+        int[] arrays = {1,2,3,4,5};
+        int max = arrays[0];
+        for (int i = 1; i <arrays.length ; i++) {
+            if (max>arrays.length){
+                max = arrays[i];
+            }
+        }
+        System.out.println("此时最小的值为："+max);
+    }
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args) {
+        int[] arrays = {1,2,3,4,5};
+        int sum = 0;
+        for (int i = 0; i <arrays.length ; i++) {
+            sum+=arrays[i];
+        }
+        System.out.println("此时和的值为："+sum);
+    }
+2.二维数组
+二维数组相当于在数组里面有嵌套了一个数组。
+
+
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args) {
+        /*
+        相当于是一个五行两列的数
+        {1，2} 代表的是arrays[0]存放的是数值1和2
+         */
+        //这行数组代表的是长度为5的二维数组
+        int[] []  arrays = {{1,2},{2,3},{3,4},{4,5},{5,6}};
+        //此时打印的是数组的地址值
+        //System.out.println(arrays[0]);
+        //取出的是二维数组中下标为0数组中的一维数组中的元素的所有值
+        test(arrays[0]);
+        //取出的是二维数组中下标为0数组中的一维数组中的下标为1的元素的值
+        System.out.println(arrays[0][1]);
+        //取出的是二维数组中的长度
+        System.out.println(arrays.length);
+        //打印所有数值
+        for (int i = 0; i <arrays.length ; i++) {
+            for (int j = 0; j <arrays[i].length ; j++) {
+                System.out.println(arrays[i][j]);
+            }
+        }
+    }
+    public static void test(int[] arrays){
+        for (int i = 0; i <arrays.length ; i++) {
+            System.out.println(arrays[i]);
+        }
+    }
+3.冒泡排序法（江湖中人尽皆知）
+两层循环，外层冒泡轮数，内层一次比较，江湖中人尽皆知。
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main (String[] args) {
+        int[] a ={55,4564,22,1,0,56456,41234564,41654321};
+        //调用完我们自己写的排序方法以后返回一个排序后的数组
+        int[] test= test(a);
+        System.out.println(Arrays.toString(test));
+    }
+            /*
+        冒泡排序：
+        1.比较数组中两个相邻的元素，如果第一个比第二个大就交换这两个数之间的顺序。
+        2.每一次比较都会产生一个最大的数或者是最小的数。
+        3.下一轮则可以少一轮排序。
+        4.一次循环，直到结束。
+         */
+            public static int[] test(int[] arrays){
+                int temp = 0;
+                //外层循环，判断我们要走多少次
+                for (int i = 0; i <arrays.length-1 ; i++) {
+                    //通过标识为减少不必要的循环
+                    boolean flag = false;
+                    //内层循环，比较数组中两个相邻的元素，如果第一个比第二个大就交换这两个数之间的顺序。
+                    for (int j = 0; j < arrays.length-1; j++) {
+                        //arrays[j+1]>arrays[j]表示如果后一个数大于当前这个数就要进行交换
+                        if (arrays[j+1]>arrays[j]){
+                            //需要建立临时变量，进行三变量倒手
+                            temp = arrays[j];
+                            arrays[j]= arrays[j+1];
+                            arrays[j+1]=temp;
+                            flag = true;
+                        }
+                    }
+                    if (flag=false){
+                        break;
+                    }
+                }
+                return arrays;
+    }
+五：什么是面向对象
+“面向对象的方法主要是把事物给对象化，包括其属性和行为。面向对象编程更贴近实际生活的思想。总体来说面向对象的底层还是面向过程，面向过程抽象成类，然后封装，方便使用就是面向对象，（万物皆对象）。
+
+其本质就是：以类的方式组织代码，以对象的组织（封装）数据。
+
+六：类与对象的关系
+1.什么是类
+什么是类：类是一种抽象的数据类型，他是对某一类事物的整体描述/定义，但是并不代表某一具体的事物。例如：手机，电脑等等；又比如Person类、Pet类、Cat类等等。
+
+2.什么是对象
+什么是对象：对象是抽象的具体实例。比如张三是人的一个具体实例，旺财是一个狗的具体实例。
+
+                      能够体现出特点，展现出功能的具体实例，而不是一个抽象的概念。
+
+3.创建与初始化对象
+1.什么是类
+      1.使用new关键字创建对象，除了分配内存空间以外还会个创建好的对象进行默认初始化以及对类中的构造器进行调用。
+
+      2.通常情况下一个类能不能直接使用，需要根据一个类创建一个对象，才能使用，因此我们需要创建一个对象来调用这个类。
+
+创建类的步骤
+1）导包：
+      格式：import包名称.类名称;
+      对于同一个包的情况下，可以省略导包语句
+2）创建：
+      格式：
+      类名称 对象名=new 类名称（）;
+3）使用：
+      （1）成员属性：
+      格式： 对象名.成员变量名；、
+      （2）成员方法：
+      格式: 对象名.成员方法名（参数）;
+
+定义一个标准类（包括如下四个部分）
+（1） 所有的成员变量都用private修饰、
+（2） 每个成员变量都有getxxx()detxxx()方法
+（3） 有一个无参构造
+（4） 有一个全参构造
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    //一个项目只存在一个main方法
+    public static void main(String[] args) {
+        /*类：抽象的、需要实例化
+          类实例化后会返回一个自己的对象
+          students对象就是Students的一个具体实例
+        */
+        Students students= new Students();
+        students.name = "张三";
+        students.age=20;
+        System.out.println(students.name+students.age);
+    }
+    //属性
+    String name;
+    int age;
+
+    //方法
+    void stu(){
+        //this代表这个类  指向型
+        System.out.println(this.name+"学生在学习");
+    }
+2.什么是构造器
+类中的构造器也叫构造方法，在进行创建对象的时候必须进行调用。并且每一个类中都隐藏一个无参构造。
+
+格式：public 类名称（形参 实参）{
+方法体
+}
+
+构造器：
+
+      1.和类名必须相同
+
+      2.没有返回值
+
+作用：
+
+      1.new的本质就是在调用构造方法
+
+      2.初始化对象的值
+
+注意点：
+
+      定义有参构造之后，如果还想用无参构造的话，那么就必须显示的定义一个无参构造。
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    //一个项目只存在一个main方法
+    public static void main(String[] args) {
+        Students students= new Students("代码贩子");
+        System.out.println(students.name);
+    }
+    String name;
+    //一个类及时什么也不写也会存在一个方法
+    //定义一个构造器
+    //实例化初始值
+    /*
+    使用new关键字，必须使用构造器
+    用来初始化值
+     */
+    //无参构造
+    public Students(){
+        //代表的是上面的name
+        this.name = "张三";
+    }
+    //有参构造
+    //一旦定义了有参构造，无参构造必须显示定义
+    public Students(String name){
+        this.name = name;
+    }
+//alt+inset可以快速构造
+3.创建对象内存分析
+      1.首先先在方法区把Demo01类的游戏额代码信息放进来。
+
+      2.主方法main（）会被压入栈.。
+
+      3.一旦new会在方法区加载出Student这个类。
+
+      4.当等于通过Students A= new Students();生成一个A同学放入栈中（此时的A只是一个引用或者变量名）。
+
+      5.针对于这个对象A会在堆里面，通过这个模板new了一个A。
+
+      6.此时的action（）方法其实调用了方法区中的action（）方法，此时Students A= new Students();方法就完成了。
+
+      7.接下来给name、age进行赋值。
+
+      8.将方法区的Demo01中的常量池中的值丢个堆中A进行name和age的赋值，此时A.name = "代码贩子、"; A.age = 24;以及A.action();中的值就赋完了，此时这个对象A的堆中就有这些值了，此时就可以使用它了。
+
+      9.如果出现了同学B就相当于当等于通过Students A= new Students();生成一个A同学放入栈中（此时的A只是一个引用或者变量名）。
+
+      10.针对于这个对象A会在堆里面，通过这个模板new了一个B。
+
+      11.此时的action（）方法其实调用了方法区中的action（）方法，此时Students。 B= new Students();方法就完成了，此时后面的操作相同。
+
+注意：静态方法区所有带static关键字的东西一开始就在这个地方，和类一起加载的，类一加加载，它就加载了。所有的对象都可以加载它。
+
+
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    //一个项目只存在一个main方法
+    public static void main(String[] args) {
+        Students A= new Students();
+        A.name = "代码贩子、";
+        A.age = 24;
+        System.out.println(A.name+A.age+A);
+        A.action();
+    }
+    public String name;
+    public int age;
+    //无参构造
+    void action(){
+        System.out.println("疯狂学习Java编程知识！");
+    }
+ 七：封装、继承、多态
+1.封装
+定义（自己理解）：该露的露，该藏的藏。将一些较为复杂的内部结构进行隐藏，将一些简单的（比如接口）该暴露给用户的东西暴露出来，比如电视机的外观等等。大部分程序的细节都应该藏起来。我们设计的程序应该追求”高内聚，低耦合“（也就是系统内部的数据操作应该由自己完成，不允许外部进行干预；仅仅暴露少量的方法给外部来进行使用）。
+
+一旦使用了private进行修饰，本类当中可以随意访问，但是超出了本类就不可以访问了。
+间接访问private成员变量，就定义一对getxxx（）setxxx（）方法
+
+对于set来说，不能有返回值，参数类型和成员变量对应
+对于get来说，不能有参数，必须有返回值类型，并且返回值类型与成员变量对应。
+
+封装的意义：
+
+      1.提高程序的安全性，保护数据。
+
+      2.隐藏代码的关键细节（以s1.setAge(24)来说，用户根本不知道里面干了什么，只有我们程序员才知道）;。
+
+      3.统一接口。
+
+      4.提高了系统的可维护性。
+
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */    
+    public static void main(String[] args) {
+        Students s1 = new Students();
+        /*
+        s1.name;无法进行调用，变量被private被私有了
+        如果换成public公有的关键字才可以被调用
+         */
+        s1.setName("代码贩子、");
+        s1.setAge(24);
+        s1.setSex('男');
+        System.out.println(s1.getName());
+        System.out.println(s1.getAge());
+        System.out.println(s1.getSex());
+    }
+    //private关键字为私有化
+    private String name;//名字
+    private int age;//年龄
+    private char sex;//性别
+    /*
+    想要解决主程序中的s1.name被调用的问题就需要提供一些可以操作这个属性的方法
+    解决办法就是提供一些public的get、set方法
+     */
+    //获得这个数据
+    public String getName(){
+        return this.name;
+    }
+    //给这个数据设置值
+    public void  setName(String name){
+         this.name=name;
+    }
+    //快捷键
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        if (age<100&&age>0) {
+            this.age = age;
+        }else {
+            this.age=3;
+        }
+    }
+
+    public char getSex() {
+        return sex;
+    }
+
+    public void setSex(char sex) {
+        this.sex = sex;
+    }
+2.继承
+定义：继承的本质就是对某一批类进行的抽象，从而实现对现实世界最好的建模。
+
+关键字：extends。意思为”扩展“，子类是父类的扩展。
+
+修饰符的级别;public>protected>default（或者是不写）>private
+
+Java中的类只有单继承的关系，没有双继承的关系（相当于一个父类可以有多个子类，但是多个子类只能以有一个父类）。
+
+级别（由大到小）
+
+关键字名称
+
+Public
+
+protected
+
+default
+
+private
+
+作用域
+
+可以被该类的和非该类的任何成员访问
+
+子类可以使用父类中，其他的不可以，它相当于传递给子类的一种继承的东西。
+
+一个包内可以访问，如果不在一个包内，即使是继承关系，子类也无法访问。
+
+只有该类可以直接调用，其余类想要调用需要使用get（）set（）方法
+
+继承是类和类之间的一种关系，除此之外，类和类之间的关系还有依赖、组合、聚合等。
+
+继承关系的两个类，一个为子类（派生类），一个为父类（基类）。子类继承父类，用关键字extends来表示。
+
+子类和父类之间，从意义上讲应该具有”is a“的关系。
+
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args) {
+        Student student =new Student();
+        //子类可以继承父类的所有方法
+        /*
+        父亲说我有钱了
+        儿子继承了父亲的财产
+        儿子也说我有钱了
+         */
+        //子类没有任何的说明
+        //接收这个方法
+        student.money();
+        //子类可以继承父类的所有属性
+        //父类中父亲姓代码，那么子类中的儿子也会继承叫代码
+        System.out.println("我跟随父亲的姓氏姓："+student.xingshi);
+        /*
+        父类中的父亲有十个小妾，但是用private关键字进行私有了，只属于父类自己
+        儿子不管是出于道德还是出于代码逻辑都不能进行继承
+        System.out.println(student.xiaoqie);
+        因此子类无法进行继承和调用
+         */
+        /*
+        出于道德不继承父亲的小妾，但是父亲有十件古董，但是被父亲私有制了，那么我们要想获得必须经过父亲的同意
+        让父类提供一些public的get、set方法
+         */
+        System.out.println("父亲同意将私有的古董给我："+student.getGudong()+"件");
+    }
+}
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args) {
+        Student student =new Student();
+        //子类可以继承父类的所有方法
+        /*
+        父亲说我有钱了
+        儿子继承了父亲的财产
+        儿子也说我有钱了
+         */
+        //子类没有任何的说明
+        //接收这个方法
+        student.money();
+        //子类可以继承父类的所有属性
+        //父类中父亲姓代码，那么子类中的儿子也会继承叫代码
+        System.out.println("我跟随父亲的姓氏姓："+student.xingshi);
+        /*
+        父类中的父亲有十个小妾，但是用private关键字进行私有了，只属于父类自己
+        儿子不管是出于道德还是出于代码逻辑都不能进行继承
+        System.out.println(student.xiaoqie);
+        因此子类无法进行继承和调用
+         */
+        /*
+        出于道德不继承父亲的小妾，但是父亲有十件古董，但是被父亲私有制了，那么我们要想获得必须经过父亲的同意
+        让父类提供一些public的get、set方法
+         */
+        System.out.println("父亲同意将私有的古董给我："+student.getGudong()+"件");
+    }
+}
+//学生（派生类；Person的子类）继承了人的所有关系
+public class Student extends Person {
+}
+//教师（派生类；Person的子类）继承了人的所有关系
+public class Teacher extends Person {
+}
+
+3.this和super关键字
+supper代表队的是在子类中调用父类中的属性或者是方法。
+
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args) {
+        Student student = new Student();
+        student.name("代码贩子本人");
+    }
+}
+/**
+ * @Author代码贩子、 --南京邮电大学
+ */
+public class Person extends Object {
+    protected String name = "代码贩子、";
+}
+public class Student extends Person {
+    private String name = "小代码贩子、";
+    void name(String name){
+        System.out.println(name);//代表的是方法传进来的String name
+        System.out.println(this.name);//代表的是private私有制的name
+        System.out.println(super.name);//代表的是父类protected受保护的name
+    }
+}
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args) {
+        Student student = new Student();
+    }
+}
+
+/**
+ * @Author代码贩子、 --南京邮电大学
+ */
+public class Person extends Object {
+   public void say(){
+        System.out.println("我是父亲");
+    }
+}
+public class Student extends Person {
+    public void say(){
+        System.out.println("xusheng");
+    }
+    public void test(){
+        say();
+        this.say();
+        super.say();
+    }
+}
+如果父类的构造器换成私有制的关键字属性，那么原本的子类就无法使用super关键字来进行方法的调用。
+
+这里参杂了一个代码位置的问题。
+
+首先在我们的子类以及父类都会隐藏一个默认的无参构造器。相当于在Person类中有个public Person() { System.out.println("父类无参执行了！"); }，在子类中有个public Student() { System.out.println("子类有参执行了！"); }。此时在new Studengt（）；的时候执行的结果如下所示：
+
+
+
+因为在子类中调用子类的构造器之前还隐藏了一段代码： super()。
+
+super();的代码只能放在子类构造器第一行，如果和System.out.println("子类有参执行了！");互换位置就会报错。因为new Studengt（）；的同时将父类的也new了。
+
+this关键字也是如此，急啊如在子类中急啊如一个有参构造器，public Student(String name) { this.name = name; }，此时调用的时候this("代码贩子、");也只能放在无参构造器的额第一行。此时苏果想要放super关键字也必须放第一行，this关键字就会报错。
+
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args) {
+        Student student = new Student();
+    }
+}
+
+/**
+ * @Author代码贩子、 --南京邮电大学
+ */
+public class Person extends Object {
+    //走一个无参构造器
+    public Person() {
+        System.out.println("父类无参执行了！");
+    }
+    void say(){
+        System.out.println("我是父亲");
+    }
+}
+public class Student extends Person {
+    private  String name;
+
+    public void say(){
+        System.out.println("xusheng");
+    }
+    public Student() {
+        /*
+        在调用构造器的时候，要么调用父类要么调用子类，必须保证在构造器的第一个
+        正常情况下super();不写也是正常的，会默认的调用无参。
+         */
+        this("代码贩子、");//调用本类有参构造器，必须放在子类的第一行。
+        //super();//调用父类无参构造器，必须放在子类的第一行。（隐藏）
+        System.out.println("子类有参执行了！");
+    }
+    public Student(String name) {
+        this.name = name;
+    }
+
+    public void test(){
+        say();
+        this.say();
+    }
+}
+假如父类中的无参构造我们不写，只写了有参构造，那么在子类中就无法进行父类无参构造的调用，不仅如此，子类中的无参也会报错。南无说我就想要调用父类中的有参构造，那么就需要在子类无参构造中利用super("代码贩子、");的形式一步步的调用。
+
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args) {
+        Student student = new Student();
+    }
+}
+
+/**
+ * @Author代码贩子、 --南京邮电大学
+ */
+public class Person extends Object {
+    public String name;
+    //走一个有参构造器
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    void say(){
+        System.out.println("我是父亲");
+    }
+}
+public class Student extends Person {
+    private  String name;
+
+    public void say(){
+        System.out.println("xusheng");
+    }
+    public Student(){
+        super("代码贩子、");
+    }
+
+    public void test(){
+        say();
+        this.say();
+    }
+}
+因此我们封装的时候无论一个类怎么写，在写的时候一般只要重写了有参构造，一般都会加上无参构造。
+
+super注意点：
+
+      1.super是调用父类的构造方法，必须写在构造方法的第一个。
+
+      2.super必须只能出现在子类的方法或者3.构造方法中。
+
+      3.this和super不能同时调用构造方法。
+
+ VS this注意点：
+
+      1.代表的是本身调用者这个对象。
+
+      2.代表父类对象的应用。
+
+前提：
+
+      2.没有继承的前提下也可以使用。
+
+      3.只能在继承条件下才可以使用。
+
+构造方法：
+
+      this（）；调用的是本类的构造。
+
+      super（）；调用的是父类的构造。
+
+4.方法重写
+ 静态方法：
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args) {
+        /*
+        方法的调用只和定义的数据类型有关 
+         */
+        A a = new A();
+        a.test();//走的是A类的静态方法
+
+        B b = new A();//父类的引用可以指向子类
+        b.test();//走的是B类的静态方法
+    }
+}
+//A类继承了B类
+public class A extends B {
+    public static void test(){
+        System.out.println("A=>test()");
+    }
+}
+//重写都是方法的重写，和属性无关
+public class B {
+    public static void test(){
+        System.out.println("B=>test()");
+    }
+}
+
+
+ 非静态方法：
+此时把A和B中的静态方法去掉，利用快捷键在A类中进行重写，默认走的都是B的方法。如果在A类中重写自己的方法，得到的都是A的方法。所以可以得出一个结论，就是静态方法和非静态方法有区别。
+
+原因是B b = new A();//非静态方法中子类重写了父类的方法。此时才叫重写
+
+并且重写的时候修饰符还必须是public的，不能是私有的。
+
+只有子类继承了父类才能重写，并且是子类重写父类的方法。
+
+public class A extends B {
+    @Override
+    public void test() {
+        super.test();
+    }
+}
+//重写都是方法的重写，和属性无关
+public class B {
+    public  void test(){
+        System.out.println("B=>test()");
+    }
+}
+
+
+public class A extends B {
+    @Override
+    public void test() {
+        System.out.println("A=>test()");
+    }
+}
+//重写都是方法的重写，和属性无关
+public class B {
+    public  void test(){
+        System.out.println("B=>test()");
+    }
+}
+
+
+ 总结（重写）：
+
+      1.必须有继承到关系并且还是子类重写父类的方法，和属性无关。
+
+特点：
+
+      1.方法名必须相同。
+
+      2.参数列表必须相同。
+
+      3.修饰符范围可以扩大。
+
+      4.抛出的异常：可以被缩小但是不能扩大。
+
+      总结：子类的方法和父类必须要一致，方法体不同。
+
+为什么需要重写？
+
+父类的功能：子类可能不一定需要，或者是不一定满足！
+
+5.多态
+定义：同一个方法可以根据发送对象的不同而采用多种不同的行为方式。一个对象的实际类型是确定的，但可以指向对象的引用类型很多。
+
+多态可以让程序变得更灵活。
+
+一个对象的实际类型是确定的，比如new Student()，new Person();但是可以指向这个类型的引用类可以是任意的。比如：Person s2 = new Student(); Object s3 = new Student()。
+
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args) {
+        /*
+        一个对象的实际引用类型是确定的，比如：
+        new Student()
+        new Person()
+         */
+        Student s1 = new Student();//子类指向的引用
+        /*
+        子类能调用的方法都是自己的或者是父类的
+         */
+        //父类的引用可以指向子类（有父子关系就可以 ，比如用String肯定不行，因为没有指定的关系。）
+        Person s2 = new Student();//父类指向的引用
+        /*
+        父类型虽然可以指向子类，但是不能调用子类独有的方法
+         */
+        Object s3 = new Student();
+
+        s2.run();//运行结果为run，因为子类重写了父类的方法，执行的为子类的方法
+        s1.run();
+        s1.eat();
+        //对象能执行哪些方法，主要看对象左边的类型，和右边的关系不大。
+        /*
+        ((Student)s2).eat();
+        强制转换后可以进行调用
+         */
+        (s2.eat());//无法调用是因为 Person s2 = new Student();虽然new了Student()但不能使用Student()方法，要看Person里面有没有，有的话才能用。
+        // 子类重写了父类的方法，执行的为子类的方法。子类和父类的方法都有的话，子类没有重写方法，就调用父类的，如果重写的话就带哦用子类的。
+    }
+}
+
+/**
+ * @Author代码贩子、 --南京邮电大学
+ */
+public class Person extends Object {
+    public void run(){
+        System.out.println("run");
+    }
+}
+public class Student extends Person{
+    @Override
+    public void run() {
+        System.out.println("son");
+    }
+    public void eat(){
+        System.out.println("eat");
+    }
+}
+注意事项：
+
+      1.首先多态是方法的多态，跟属性无关。
+
+      2.要有关系（父子类），不然的话会出现类型转换异常。
+
+存在条件：
+
+      1.要有继承的关系。
+
+      2.方法需要重写（static属于类，不属于实例、final输入常量，在常量池，private私有的不能重写就不能进行多态）。（假如子父类都有run方法，那么子类没有重写方法，就调用父类的，如果重写的话就带哦用子类的）。
+
+      3.父类引用指向子类对象、
+
+6.instanceof关键字
+作用：instanceof关键字可以判断两个类之间是否存在父子关系。
+
+      1.父类引用指向子类的对象。
+
+      2.子类转换为父类（向上转型），不用强制转换。
+
+      3.父类转换为子类（向下转型），强制转换后会丢失方法。
+
+      4.方便方法的调用，减少重复的代码，提升代码的利用率并且使代码变得更简洁。
+
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args) {
+        //Object>String
+        //Object>Person>Student
+        //Object>Person>Teacher
+        //System.out.println(A instanceof B);
+        //A和B是否有继承关系
+        Object object = new Student();
+        System.out.println(object instanceof Student);//true
+        System.out.println(object instanceof Person);//true
+        System.out.println(object instanceof Object);//true
+        System.out.println(object instanceof Teacher);//false
+        System.out.println(object instanceof String);//false
+        Person person = new Student();
+        System.out.println(person instanceof Student);//true
+        System.out.println(person instanceof Person);//true
+        System.out.println(person instanceof Object);//true
+        System.out.println(person instanceof Teacher);//false
+        //System.out.println(person instanceof String);//编译错误
+    }
+}
+
+/**
+ * @Author代码贩子、 --南京邮电大学
+ */
+public class Person extends Object {
+    public void run(){
+        System.out.println("run");
+    }
+}
+public class Student extends Person{
+    @Override
+    public void run() {
+        System.out.println("son");
+    }
+    public void eat(){
+        System.out.println("eat");
+    }
+}
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args) {
+        Person student = new Student();
+        //因为这里是Person类型的student
+        //student.eat();
+        //将Person类型的student的对象转换成student类型，我们就可以使用student类型的方法了。
+       Student obj = (Student) student;
+       //这样就可以使用低一层的方法了
+       obj.eat();
+       //第二种写法（（student）obj）.eat();
+        /*
+        由低转高（子类转换成父类）
+        可能会丢失一些方法
+         */
+        Person person = new Student();
+        //丢失一些方法
+        //person.eat();
+    }
+}
+
+/**
+ * @Author代码贩子、 --南京邮电大学
+ */
+public class Person extends Object {
+    public void run(){
+        System.out.println("run");
+    }
+}
+public class Student extends Person{
+    @Override
+    public void run() {
+        System.out.println("son");
+    }
+    public void eat(){
+        System.out.println("eat");
+    }
+}
+7.static关键字
+      1.static静态变量在类中是共享的。
+
+      2.非静态方法可以访问本类中的所有静态方法。
+
+      3.静态方法可以调用本类中所有的静态方法。
+
+原因：因为静态的方法是和mian方法一起加载出来的，加载之前还没有普通的方法，所以就无法调用。
+
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    /*
+    static静态变量在类中是共享的
+     */
+    private static int name;//静态变量
+    private double age;//非静态变量
+    public static void main(String[] args) {
+        System.out.println(name);//直接可以调用
+        System.out.println(age);//不可以直接调用
+       Demo01 demo01 = new Demo01();
+        //通过对象调用
+        System.out.println(demo01.age);
+        System.out.println(demo01.name);
+    }
+}
+      1.静态代码块(最早的执行)；静态代码块只在一开始执行一次并且后面将不再执行。
+
+      2.匿名代码块在对象一创建的时候，就先走匿名代码块，然后再走构造器；作用：赋初始值。
+
+      3.构造器最后执行。
+
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    {
+        //匿名代码块
+        //作用：赋初始值
+        System.out.println("匿名代码块");
+    }
+    static {
+        //静态代码块(最早的执行)
+        System.out.println("静态代码块");
+    }
+
+    public Demo01(){
+    //构造器（最后执行）
+        System.out.println("构造器");
+    }
+    public static void main(String[] args) {
+        Demo01 demo01 = new Demo01();
+        System.out.println("-------------分隔符-------------");
+        /*
+        因为静态代码块只执行一次
+        对象一创建的时候，就先走匿名代码块，然后再走构造器
+        静态代码块只在一开始执行一次并且后面将不再执行
+         */
+        Demo01 demo02 = new Demo01();//此时执行的时候静态代码块就没了
+    }
+}
+
+
+ 8.抽象类
+抽象类定义;在普通类的结构里面增加抽象方法的组成部分。
+
+抽象方法定义：是指没有方法体的方法。
+
+关键字为：abstract。
+
+注意：
+
+      1.不能new这个抽象类，只能靠它的子类进行实现。
+
+      2.抽象类中可以写普通的方法。
+
+      3.抽象方法必须在抽象类中。
+
+
+/**
+ * @Author代码贩子、 --南京邮电大学
+ */
+//抽象类
+public abstract class Person {
+    //约束 有人帮我们实现 
+    //只有方法的名字，没有方法的实现
+    public abstract void work();
+}
+//抽象类的所有方法，继承了它的子类，都必须要实现它的方法，除非子类本身也是一个抽象类。
+public class Student extends Person{
+    @Override
+    public void work() {
+
+    }
+}
+9.接口
+接口的定义：简单来说为某种特征的约定。
+
+关键字：interface。
+
+      1.类可以实现接口 implements
+
+      2.实现了接口的类，就需要重写接口中的方法
+
+      3.利用接口实现多继承，但是与继承关系无关。
+
+//接口定义的关键字interface
+//接口都需要有实现类
+public interface userService {
+    //接口中的所有定义都是抽象的 public abstract
+    void add(String name);
+    void delete(String name);
+    void update(String name);
+    void query(String name);
+}
+public interface timeService {
+    void timer();
+}
+//类可以实现接口 implements
+//实现了接口的类，就需要重写接口中的方法
+//利用接口实现多继承
+public class userServiceImpl implements userService,timeService{
+    @Override
+    public void add(String name) {
+
+    }
+
+    @Override
+    public void delete(String name) {
+
+    }
+
+    @Override
+    public void update(String name) {
+
+    }
+
+    @Override
+    public void query(String name) {
+
+    }
+
+    @Override
+    public void timer() {
+
+    }
+}
+总结：
+
+      1.约束。
+
+      2.定义一些方法，让不同的人实现功能。
+
+      3.接口不能被实例化，并且接口没有构造方法。
+
+      4.implements关键字可以实现多个接口。
+
+      5.必须要重写接口中的方法。
+
+10.内部类
+定义：将一个类定义在一个类或者一个方法里面，这样的类称着内部类。
+
+注意：一个Java文件中可以有多个class类，但是只能有一个public class类。
+
+1.成员内部类
+定义：成员内部类是最普通的一种内部类，成员内部类可以访问外部类所有的属性和方法。但是外部类要访问成员内部类的属性和方法，必须要先实例化成员内部类。
+
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args) {
+        A a = new A();
+        a.out();
+        //通过这个外部类来实例化内部类
+        A.Inner inner = a.new Inner();
+        inner.in();
+        inner.getoutId();
+    }
+}
+public class A {
+    private int id = 10;
+    public void out(){
+        System.out.println("这是一个外部类");
+    }
+    public class Inner{
+        public void in(){
+            System.out.println("这是一个内部类");
+        }
+        //内部类可以获得外部类的私有属性以及方法
+        public void getoutId(){
+            System.out.println(id);
+        }
+    }
+}
+2.静态内部类
+定义：静态内部类就是在成员内部类多加了一个 static 关键字。静态内部类只能访问外部类的静态成员变量和方法（包括私有静态）
+
+import A.Inner;
+
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args) {
+        A a = new A();
+        a.out();
+        //通过这个外部类来实例化内部类
+       Inner inner = new Inner();
+       inner.getoutId();
+//        A.Inner inner = a.new Inner();
+//        inner.in();
+//        inner.getoutId();
+    }
+}
+public class A {
+    private static int id = 10;
+    public void out(){
+        System.out.println("这是一个外部类");
+    }
+    public static class Inner{
+        public void in(){
+            System.out.println("这是一个内部类");
+        }
+        //内部类可以获得外部类的私有属性以及方法
+        public void getoutId(){
+            //静态内部类此时无法获得id，原因可以参考内存的解释 之后外部类的属性变量也是静态的才可以加载id
+            System.out.println(id);
+        }
+    }
+}
+3.匿名内部类
+定义：顾名思义就是没有名字的类。
+
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args) {
+        //没有名字初始化的类，不用将实例保存在变量中
+        new B().eat();
+       UseService useService = new UseService() {
+            @Override
+            public void Hello() {
+
+            }
+        };
+    }
+
+}
+class B{
+    public void eat(){
+        System.out.println("干饭!");
+    }
+}
+interface UseService{
+    void Hello();
+}
+4.局部内部类
+定义：局部内部类就是定义在代码块内的一个内部类。
+
+局部内部类的作用范围仅仅就在它所在的代码块里。局部内部类不能被public ，protected，private以及static修饰，但是可以被final修饰。
+
+/**
+ * @Author代码贩子、 --南京邮电大学
+ */
+public class A {
+    public void method(){
+        class Inner{
+            public void in(){
+                
+            }
+        }
+    }
+}
+11.异常
+定义：在程序运行过程中出现的错误，称为异常。异常就是程序运行过程中出现了不正常现象导致程序的中断。在Java中，把各种异常现象进行了抽象形成了异常类。
+
+分类：检查时异常；运行时异常；错误。
+
+          检查时异常：检查时异常最具有代表性的就是用户错误或者是问题引起的异常，这种异常是我们程序员无法进行预测的。例如我们要打开一个文件时文件不见了，这些异常都是在编译时不能被简单的忽略的。
+
+          运行时异常：运行时异常是可能被程序员避免的异常，与检查时异常相反，运行时异常可以在编译时被忽略。
+
+          错误：错误不是异常，而是不被程序员控制的问题，错误在代码中通常被忽略。例如当栈溢出时，错误就产生了，并且在程序编译的时候也无法被找到。
+
+部分异常体系结构如下图所示：
+
+
+
+1.抛出以及捕获异常
+关键字：try、catch、final、throw、throws。
+
+      try：抛出异常（尝试着去处理什么东西）。
+
+      catch：捕获异常。
+
+      final：无论有什么异常发生，finally都会被执行（可以运行清理类型等收尾善后性质的语句）。
+
+      throw：当程序发生异常而无法处理的时候，会抛出对应的异常对象。
+
+      throws：throws用来在类中捕获异常信息，标明方法可能抛出的异常。
+
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args) {
+        int a = 1;
+        int b = 0;
+        try {//监控区域
+            System.out.println(a/b);
+        }catch (ArithmeticException e){
+            System.out.println("程序出现异常，变量b不能为0");
+        }finally {//finally一般用来处理善后工作
+            System.out.println("finally");
+        }
+    }
+}
+注意：
+
+      1.程序的最后可以不要finally 。IO流以及资源需要关闭通常放在finally里面。
+
+      2.捕获异常可以catch多个，但是要把作用域最小的放在上面。
+
+      3.快捷方式：选中要捕获异常的代码 ctrl+t选择异常类即可。
+
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args) {
+        int a = 1;
+        int b = 0;
+        try {//监控区域
+           Demo01 demo01 = new Demo01();
+            //System.out.println(a/b);
+            demo01.a();
+        }catch (Exception e){//catch里面存放的是想要捕获的异常类型
+            System.out.println("程序出现异常，变量b不能为0");
+        }catch (Throwable t){
+            System.out.println("异常");
+        }finally {//finally一般用来处理善后工作
+            System.out.println("finally");
+        }
+    }
+    public void a(){
+        b();
+    }
+    public void b(){
+        a();
+    }
+}
+
+
+ 我们也可以用throw来主动抛出异常。
+
+public class Demo01 {
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+    public static void main(String[] args) {
+        int a = 1;
+        int b = 0;
+        try {
+            new Demo01().text(1,0);
+        }catch (ArithmeticException e){
+            e.printStackTrace();
+        }
+    }
+    //假如这个方法中，处理不了这个异常，方法上抛出异常,在调用闪光也要进行捕获
+    public void text(int a, int b) throws ArithmeticException{
+        if (b == 0) {//主动抛出异常 throw 一般用在方法中
+            throw new ArithmeticException();
+        }
+        System.out.println(a/b);
+    }
+}
+2.自定义异常
+定义：使用Java内置的异常类可以描述在编程时出现的大部分异常情况。除此之外，用户还可以自定义异常，用户自定义异常类，只需要继承Exception类即可。
+
+在程序中使用自定义异常类，大体可以分为以下步骤。
+
+      1.创建自定义常类。
+
+      2.在方法中通过throw关键字抛出异常。
+
+      3.如果在当前抛出异常的方法中处理异常，可以使用try——catch语句来捕获异常并处理，否则在方法的声明处通过throws关键字指明要抛出给方法调用的异常，继续下一步操作。
+
+      4.在出现异常方法的调用者中捕获并处理异常。
+
+public class Text {
+    static void Test(int a) throws Demo01 {
+        if(a>10){
+            throw new Demo01(a);//抛出
+        }else{
+            System.out.println("传递的参数为："+a);
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            Test(1);
+        }catch (Demo01 e){
+            System.out.println("Demo01"+e);
+        }
+    }
+}
+//继承Except异常类
+public class Demo01 extends Exception{
+    /**
+     * @Author代码贩子、 --南京邮电大学
+     */
+        //传递数字
+       private int detial;
+
+    public Demo01(int a) {
+        this.detial = a;
+    }
+    //异常的打印信息
+    @Override
+    public String toString() {
+        return "Demo01{" +
+                "detial=" + detial +
+                '}';
+    }
+}
+总结：
+
+      1.处理运行时异常时，采用逻辑法合理规避同时辅助try——catch处理。
+
+      2.在多重catch快后面，可以加一个catch（Exception）来处理可能会被遗漏的异常。
+
+      3.对于不确定的代码，也可以加上try——catch，处理潜在的异常。
+
+      4.尽量去处理异常，切忌只是简单的调用printStackTrace（）去打印输出。
+
+      5.具体如何处理异常，要根据不同的业务需求和异常类的类型去决定。
+
+      6.尽量添加finally语句块去释放占用的资源。
+== Class clazz2 = Student.class;
+== Class clazz3 = s.getClass(); s = new Student();
+
+动态代理：
